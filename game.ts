@@ -6,6 +6,7 @@ export async function game(signs: Sign[]) {
     const userChoice = await userTurn(signs);
     const computerChoice = computerTurn(signs);
     const won = whoWonGame(userChoice, computerChoice);
+    process.stdout.write(`${won}`);
 }
 
 function computerTurn(signs: Sign[]): Sign {
@@ -25,6 +26,7 @@ async function userTurn(signs: Sign[]): Promise<Sign> {
     });
 
     const choice =  await getUserChoice(readlineInterface, signs);
+    readlineInterface.close();
     return signs[choice];
 }
 
@@ -36,7 +38,7 @@ async function userTurn(signs: Sign[]): Promise<Sign> {
 async function getUserChoice(readlineInterface: ReadlineInterface, signs: Sign[]): Promise<number> {
     const choices = signs.reduce((choices, sign, index ) => {
         return `${choices} ${index+1} / ${sign.name}\n`;
-    }, 'Que choisissez-vous ?\n')
+    }, 'Que choisissez-vous ?\n');
 
     let answer;
     do {
